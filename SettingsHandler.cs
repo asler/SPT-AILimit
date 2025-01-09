@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AIlimit;
+﻿using AIlimit;
 using AILimit;
 
 namespace dvize.AILimit
@@ -49,6 +44,6 @@ namespace dvize.AILimit
                     AILimitComponent.botDistance = 200.0f;
                     break;
             }
-    }
+        }
     }
 }

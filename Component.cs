@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Timers;
-using AIlimit;
+﻿using AIlimit;
 using BepInEx.Logging;
 using Comfort.Common;
 using dvize.AILimit;
 using EFT;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Timers;
 using UnityEngine;
+using Newtonsoft.Json;
 
 namespace AILimit
 {
@@ -16,7 +17,7 @@ namespace AILimit
         private static int botCount;
         private static GameWorld gameWorld;
 
-        private int frameCounter = 0;
+        private int frameCounter = 100;
         private List<botPlayer> disabledBotsLastFrame = new List<botPlayer>();
 
 
@@ -40,11 +41,10 @@ namespace AILimit
             }
         }
 
+       
         private void Start()
         {
-            botSpawnerClass.OnBotCreated += OnPlayerAdded;
-            botSpawnerClass.OnBotRemoved += OnPlayerRemoved;
-
+            
             SetupBotDistanceForMap();
 
             //reset static vars to work with new raid
@@ -57,6 +57,9 @@ namespace AILimit
             };
 
             Logger.LogDebug("Setup Bot Distance for Map: " + botDistance);
+
+            botSpawnerClass.OnBotCreated += OnPlayerAdded;
+            botSpawnerClass.OnBotRemoved += OnPlayerRemoved;
         }
         public static void Enable()
         {
@@ -66,11 +69,9 @@ namespace AILimit
                 gameWorld.GetOrAddComponent<AILimitComponent>();
 
                 //botspawner is wrong class. bots being enabled here will limit bots spawned.
-
                 botSpawnerClass = (Singleton<IBotGame>.Instance).BotsController.BotSpawner;
 
-
-                Logger.LogDebug("AILimit Enabled");
+                Logger.LogDebug($"AILimit Enabled.");
             }
         }
         private void OnEnable()
@@ -92,7 +93,7 @@ namespace AILimit
         private void SetupBotDistanceForMap()
         {
             string location = gameWorld.MainPlayer.Location.ToLower();
-            Logger.LogDebug($"The location detected is: {location}");
+
             switch (location)
             {
                 case "factory4_day":
@@ -130,44 +131,67 @@ namespace AILimit
                     botDistance = 200.0f;
                     break;
             }
+
+            Logger.LogDebug($"The location detected is: {location} with radius: {botDistance}");
+
         }
 
-        private void OnPlayerAdded(BotOwner botOwner)
+
+        public void OnPlayerAdded(BotOwner botOwner)
         {
             if (!botOwner.GetPlayer.IsYourPlayer)
             {
                 player = botOwner.GetPlayer;
                 Logger.LogDebug("In OnPlayerAdded Method: " + player.gameObject.name);
 
-                if (!playerInfoMapping.ContainsKey(player.Id))
+                ProcessPlayer(player);
+
+                if (botList.Count != gameWorld.AllAlivePlayersList.Count - 1)
                 {
-                    var playerInfo = new PlayerInfo
+                    foreach (var player in gameWorld.AllAlivePlayersList)
                     {
-                        Player = player,
-                        Bot = new botPlayer(player.Id)
-                    };
-
-                    playerInfoMapping.Add(player.Id, playerInfo);
-
-                    // Add bot to the botList immediately
-                    botList.Add(playerInfo.Bot);
-
-                    Logger.LogDebug("Added: " + player.Profile.Info.Settings.Role + " - " + player.Profile.Nickname + " to botList");
-
-                    bot = playerInfo.Bot;
-                    bot.Distance = Vector3.SqrMagnitude(player.Position - gameWorld.MainPlayer.Position);
-
-
-                    if (!bot.timer.Enabled && player.CameraPosition != null)
-                    {
-                        bot.timer.Enabled = true;
-                        bot.timer.Start();
+                        if (!player.IsYourPlayer)
+                        { 
+                            ProcessPlayer(player);
+                        }
                     }
+                }
+
+                Logger.LogDebug($"{botList.Count} bots in list from total {gameWorld.AllAlivePlayersList.Count - 1} bots.");
+
+            }
+        }
+
+        public static void ProcessPlayer(Player player)
+        { 
+            if (!playerInfoMapping.ContainsKey(player.Id))
+            {
+                var playerInfo = new PlayerInfo
+                {
+                    Player = player,
+                    Bot = new botPlayer(player.Id)
+                };
+
+                playerInfoMapping.Add(player.Id, playerInfo);
+
+                // Add bot to the botList immediately
+                botList.Add(playerInfo.Bot);
+
+                Logger.LogDebug("Added: " + player.Profile.Info.Settings.Role + " - " + player.Profile.Nickname + " to botList");
+
+                var bot = playerInfo.Bot;
+                bot.Distance = Vector3.SqrMagnitude(player.Position - gameWorld.MainPlayer.Position);
+
+
+                if (!bot.timer.Enabled && player.CameraPosition != null)
+                {
+                    bot.timer.Enabled = true;
+                    bot.timer.Start();
                 }
             }
         }
 
-        private void OnPlayerRemoved(BotOwner botOwner)
+        public void OnPlayerRemoved(BotOwner botOwner)
         {
             player = botOwner.GetPlayer;
             if (playerInfoMapping.ContainsKey(player.Id))
@@ -268,6 +292,9 @@ namespace AILimit
             {
                 await Task.Delay(1000);
             }
+            //		Message	"get_gameObject can only be called from the main thread.
+            //		Constructors and field initializers will be executed from the loading thread when loading a scene.
+            //		Don't use this function in the constructor or field initializers, instead move initialization code to the Awake or Start function."	string
 
             botplayer.timer.Stop();
             botplayer.eligibleNow = true;
@@ -327,7 +354,7 @@ namespace AILimit
                 timer = new Timer(AILimitPlugin.TimeAfterSpawn.Value * 1000);
                 timer.Enabled = false;
                 timer.AutoReset = false;
-                timer.Elapsed += (sender, e) => EligiblePool(this);
+                timer.Elapsed += async (sender, e) => await EligiblePool(this);
             }
         }
 
