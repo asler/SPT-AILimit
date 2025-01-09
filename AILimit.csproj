@@ -52,534 +52,64 @@
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>F:\SPT-AKI-DEV\BepInEx\core\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx, Version=5.4.21.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>F:\SPT-AKI-DEV\BepInEx\core\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Comfort, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\Comfort.dll</HintPath>
+    </Reference>
+    <Reference Include="spt-common">
+      <HintPath>F:\SPT-AKI-DEV\BepInEx\plugins\spt\spt-common.dll</HintPath>
+    </Reference>
+    <Reference Include="spt-reflection">
+      <HintPath>F:\SPT-AKI-DEV\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>F:\SPT-AKI-DEV\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Component.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="SettingsHandler.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\BepInEx\core\0Harmony.dll</HintPath>
-    </Reference>
-    <Reference Include="Accessibility" />
-    <Reference Include="AmplifyMotion">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\AmplifyMotion.dll</HintPath>
-    </Reference>
-    <Reference Include="AnimationSystem.Recording">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\AnimationSystem.Recording.dll</HintPath>
-    </Reference>
-    <Reference Include="AnimationSystem.Types">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\AnimationSystem.Types.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Assembly-CSharp-firstpass.dll</HintPath>
-    </Reference>
-    <Reference Include="Autodesk.Fbx">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Autodesk.Fbx.dll</HintPath>
-    </Reference>
-    <Reference Include="BepInEx">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\BepInEx\core\BepInEx.dll</HintPath>
-    </Reference>
-    <Reference Include="BepInEx.Harmony">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\BepInEx\core\BepInEx.Harmony.dll</HintPath>
-    </Reference>
-    <Reference Include="BepInEx.Preloader">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\BepInEx\core\BepInEx.Preloader.dll</HintPath>
-    </Reference>
-    <Reference Include="bsg.componentace.compression.libs.zlib">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\bsg.componentace.compression.libs.zlib.dll</HintPath>
-    </Reference>
-    <Reference Include="bsg.console.core">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\bsg.console.core.dll</HintPath>
-    </Reference>
-    <Reference Include="bsg.microsoft.extensions.objectpool">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\bsg.microsoft.extensions.objectpool.dll</HintPath>
-    </Reference>
-    <Reference Include="bsg.system.buffers">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\bsg.system.buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="BSG.Unity.Wires">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\BSG.Unity.Wires.dll</HintPath>
-    </Reference>
-    <Reference Include="Cinemachine">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Cinemachine.dll</HintPath>
-    </Reference>
-    <Reference Include="Coffee.SoftMaskForUGUI">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Coffee.SoftMaskForUGUI.dll</HintPath>
-    </Reference>
-    <Reference Include="com.nvidia.reflex.Runtime">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\com.nvidia.reflex.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="com.unity.multiplayer-hlapi.Runtime">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Comfort">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Comfort.dll</HintPath>
-    </Reference>
-    <Reference Include="Comfort.Unity">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Comfort.Unity.dll</HintPath>
-    </Reference>
-    <Reference Include="CommonExtensions">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\CommonExtensions.dll</HintPath>
-    </Reference>
-    <Reference Include="ConfigurationManager">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\BepInEx\plugins\spt\ConfigurationManager.dll</HintPath>
-    </Reference>
-    <Reference Include="DissonanceVoip">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\DissonanceVoip.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTween">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\DOTween.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTween.Modules">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\DOTween.Modules.dll</HintPath>
-    </Reference>
-    <Reference Include="FbxBuildTestAssets">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\FbxBuildTestAssets.dll</HintPath>
-    </Reference>
-    <Reference Include="FilesChecker">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\FilesChecker.dll</HintPath>
-    </Reference>
-    <Reference Include="HarmonyXInterop">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\BepInEx\core\HarmonyXInterop.dll</HintPath>
-    </Reference>
-    <Reference Include="ILInjectedProfiler">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\ILInjectedProfiler.dll</HintPath>
-    </Reference>
-    <Reference Include="ItemComponent.Types">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\ItemComponent.Types.dll</HintPath>
-    </Reference>
-    <Reference Include="ItemTemplate.Types">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\ItemTemplate.Types.dll</HintPath>
-    </Reference>
-    <Reference Include="JBooth.MicroSplat.Core">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\JBooth.MicroSplat.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="kcp">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\kcp.dll</HintPath>
-    </Reference>
-    <Reference Include="LibraryLoaderUtility">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\LibraryLoaderUtility.dll</HintPath>
-    </Reference>
-    <Reference Include="Meta.XR.Audio">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Meta.XR.Audio.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="netstandard" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json.UnityConverters">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Newtonsoft.Json.UnityConverters.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog.EFT.Trainer">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\NLog.EFT.Trainer.dll</HintPath>
-    </Reference>
-    <Reference Include="Novell.Directory.Ldap">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Novell.Directory.Ldap.dll</HintPath>
-    </Reference>
-    <Reference Include="Oculus.AudioManager">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Oculus.AudioManager.dll</HintPath>
-    </Reference>
-    <Reference Include="Oculus.Spatializer">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Oculus.Spatializer.dll</HintPath>
-    </Reference>
-    <Reference Include="Sirenix.OdinInspector.Attributes">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Sirenix.OdinInspector.Attributes.dll</HintPath>
-    </Reference>
-    <Reference Include="Sirenix.OdinInspector.CompatibilityLayer">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Sirenix.OdinInspector.CompatibilityLayer.dll</HintPath>
-    </Reference>
-    <Reference Include="Sirenix.Serialization">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Sirenix.Serialization.dll</HintPath>
-    </Reference>
-    <Reference Include="Sirenix.Serialization.Config">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Sirenix.Serialization.Config.dll</HintPath>
-    </Reference>
-    <Reference Include="Sirenix.Utilities">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Sirenix.Utilities.dll</HintPath>
-    </Reference>
-    <Reference Include="spt-common">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\BepInEx\plugins\spt\spt-common.dll</HintPath>
-    </Reference>
-    <Reference Include="spt-core">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\BepInEx\plugins\spt\spt-core.dll</HintPath>
-    </Reference>
-    <Reference Include="spt-custom">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\BepInEx\plugins\spt\spt-custom.dll</HintPath>
-    </Reference>
-    <Reference Include="spt-debugging">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\BepInEx\plugins\spt\spt-debugging.dll</HintPath>
-    </Reference>
-    <Reference Include="spt-prepatch">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\BepInEx\patchers\spt-prepatch.dll</HintPath>
-    </Reference>
-    <Reference Include="spt-reflection">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
-    </Reference>
-    <Reference Include="spt-singleplayer">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\BepInEx\plugins\spt\spt-singleplayer.dll</HintPath>
-    </Reference>
-    <Reference Include="SteamAudio">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\SteamAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Design" />
-    <Reference Include="System.Diagnostics.Debug" />
-    <Reference Include="System.Diagnostics.StackTrace">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\System.Diagnostics.StackTrace.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Diagnostics.Tracing">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\System.Diagnostics.Tracing.dll</HintPath>
-    </Reference>
-    <Reference Include="System.DirectoryServices" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Drawing.Design" />
-    <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Globalization" />
-    <Reference Include="System.Globalization.Extensions">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\System.Globalization.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Reflection" />
-    <Reference Include="System.Resources.ResourceManager" />
-    <Reference Include="System.Runtime" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.Extensions" />
-    <Reference Include="System.Runtime.InteropServices" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
-    <Reference Include="System.Runtime.Serialization.Xml" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.ServiceModel.Internals, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\System.ServiceModel.Internals.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml.XPath.XDocument">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\System.Xml.XPath.XDocument.dll</HintPath>
-    </Reference>
-    <Reference Include="uLipSync.Runtime">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\uLipSync.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.Burst.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst.Cecil">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.Burst.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst.Cecil.Mdb">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.Burst.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst.Cecil.Pdb">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.Burst.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst.Cecil.Rocks">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.Burst.Cecil.Rocks.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Burst.Unsafe">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.Burst.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Formats.Fbx.Runtime">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.Formats.Fbx.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Mathematics">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.Mathematics.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.MemoryProfiler">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.MemoryProfiler.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.PlayableGraphVisualizer">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.PlayableGraphVisualizer.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Postprocessing.Runtime">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.Postprocessing.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.ProBuilder.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.Csg">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.ProBuilder.Csg.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.KdTree">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.ProBuilder.KdTree.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.Poly2Tri">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.ProBuilder.Poly2Tri.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.Stl">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.ProBuilder.Stl.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Recorder">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.Recorder.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Recorder.Base">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.Recorder.Base.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ScriptableBuildPipeline">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.ScriptableBuildPipeline.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Timeline">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\Unity.Timeline.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AccessibilityModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.AccessibilityModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AIModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.AIModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AndroidJNIModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.AndroidJNIModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.AnimationModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ARModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.ARModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AssetBundleModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AudioModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.AudioModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ClothModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.ClothModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ClusterInputModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.ClusterInputModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ClusterRendererModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.ClusterRendererModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CrashReportingModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.CrashReportingModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.DirectorModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.DirectorModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.DSPGraphModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.DSPGraphModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.GameCenterModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.GameCenterModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.GridModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.GridModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.HotReloadModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.HotReloadModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.IMGUIModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.InputModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.InputModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.JSONSerializeModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.LocalizationModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.LocalizationModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ParticleSystemModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.PerformanceReportingModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.PerformanceReportingModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Physics2DModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.Physics2DModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.PhysicsModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ProfilerModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.ProfilerModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ScreenCaptureModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.ScreenCaptureModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.SharedInternalsModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.SharedInternalsModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.SpriteMaskModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.SpriteMaskModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.SpriteShapeModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.SpriteShapeModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.StreamingModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.StreamingModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.SubstanceModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.SubstanceModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.SubsystemsModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.SubsystemsModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.TerrainModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.TerrainModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.TerrainPhysicsModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.TerrainPhysicsModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.TextCoreModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.TextCoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.TilemapModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.TilemapModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.TLSModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.TLSModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UIElementsModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.UIElementsModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UIModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.UIModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UmbraModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.UmbraModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UNETModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.UNETModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityAnalyticsModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.UnityAnalyticsModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityConnectModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.UnityConnectModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityTestProtocolModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.UnityTestProtocolModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestTextureModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestWWWModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.VehiclesModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.VehiclesModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.VFXModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.VFXModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.VideoModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.VideoModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.VRModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.VRModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.WindModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.WindModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.XRModule">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\UnityEngine.XRModule.dll</HintPath>
-    </Reference>
-    <Reference Include="websocket-sharp">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\websocket-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="where-allocations">
-      <HintPath>..\SPT-3.10.4-33420-c6a9a1a\Managed\where-allocations.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "j:\SPT AKI 3.10.0\BepInEx\plugins\$(TargetName).dll"
+    <PostBuildEvent>copy "$(TargetPath)" "F:\SPT-AKI-DEV\BepInEx\plugins\$(TargetName).dll"
 
 if "$(ConfigurationName)" == "Debug" (
-    copy "$(TargetDir)$(TargetName).pdb" "j:\SPT AKI 3.10.0\BepInEx\plugins\$(TargetName).pdb"
+    copy "$(TargetDir)$(TargetName).pdb" "F:\SPT-AKI-DEV\BepInEx\plugins\$(TargetName).pdb"
 ) else (
-    del "j:\SPT AKI 3.10.0\BepInEx\plugins\$(TargetName).pdb"
+    del "F:\SPT-AKI-DEV\BepInEx\plugins\$(TargetName).pdb"
 )
 
 if "$(ConfigurationName)" == "Release" (
-    powershell -ExecutionPolicy Bypass -NoProfile -NonInteractive -File "$(ProjectDir)PackageMods.ps1" -ConfigurationName "$(ConfigurationName)" -TargetPath "j:\SPT AKI 3.10.0\BepInEx\plugins\$(TargetName).dll" -TargetName "$(TargetName)" -TargetDir "j:\SPT AKI 3.10.0\BepInEx\plugins"
+    powershell -ExecutionPolicy Bypass -NoProfile -NonInteractive -File "$(ProjectDir)PackageMods.ps1" -ConfigurationName "$(ConfigurationName)" -TargetPath "F:\SPT-AKI-DEV\BepInEx\plugins\$(TargetName).dll" -TargetName "$(TargetName)" -TargetDir "F:\SPT-AKI-DEV\BepInEx\plugins"
 )</PostBuildEvent>
   </PropertyGroup>
 </Project>

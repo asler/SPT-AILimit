@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Timers;
 using UnityEngine;
-using Newtonsoft.Json;
 
 namespace AILimit
 {
