@@ -16,7 +16,7 @@ namespace AILimit
         private static int botCount;
         private static GameWorld gameWorld;
 
-        private int frameCounter = 100;
+        private int frameCounter = 10000;
         private List<botPlayer> disabledBotsLastFrame = new List<botPlayer>();
 
 
@@ -220,9 +220,6 @@ namespace AILimit
                 {
                     UpdateBots();
                     frameCounter = 0; // Reset the frame counter
-                }
-                else
-                {
                     UpdateBotsWithDisabledList();
                 }
             }
@@ -280,6 +277,7 @@ namespace AILimit
                     player.AIData.BotOwner.DecisionQueue.Clear();
                     player.AIData.BotOwner.Memory.GoalEnemy = null;
                     player.gameObject.SetActive(false);
+                    Logger.LogDebug("Bot # " + player.gameObject.name + " deactivated.");
                 }
             }
         }
