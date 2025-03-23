@@ -107,16 +107,16 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "F:\SPT-AKI-DEV\BepInEx\plugins\$(TargetName).dll"
+    <PostBuildEvent>copy "$(TargetPath)" "J:\SPT 3.11\BepInEx\plugins\$(TargetName).dll"
 
 if "$(ConfigurationName)" == "Debug" (
-    copy "$(TargetDir)$(TargetName).pdb" "F:\SPT-AKI-DEV\BepInEx\plugins\$(TargetName).pdb"
+    copy "$(TargetDir)$(TargetName).pdb" "J:\SPT 3.11\BepInEx\plugins\$(TargetName).pdb"
 ) else (
-    del "F:\SPT-AKI-DEV\BepInEx\plugins\$(TargetName).pdb"
+    del "J:\SPT 3.11\BepInEx\plugins\$(TargetName).pdb"
 )
 
 if "$(ConfigurationName)" == "Release" (
-    powershell -ExecutionPolicy Bypass -NoProfile -NonInteractive -File "$(ProjectDir)PackageMods.ps1" -ConfigurationName "$(ConfigurationName)" -TargetPath "F:\SPT-AKI-DEV\BepInEx\plugins\$(TargetName).dll" -TargetName "$(TargetName)" -TargetDir "F:\SPT-AKI-DEV\BepInEx\plugins"
+    powershell -ExecutionPolicy Bypass -NoProfile -NonInteractive -File "$(ProjectDir)PackageMods.ps1" -ConfigurationName "$(ConfigurationName)" -TargetPath "J:\SPT 3.11\BepInEx\plugins\$(TargetName).dll" -TargetName "$(TargetName)" -TargetDir "J:\SPT 3.11\BepInEx\plugins"
 )</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -16,7 +16,7 @@ namespace AILimit
         private static int botCount;
         private static GameWorld gameWorld;
 
-        private int frameCounter = 10000;
+        private int frameCounter = 3000;
         private List<botPlayer> disabledBotsLastFrame = new List<botPlayer>();
 
 
@@ -210,16 +210,35 @@ namespace AILimit
             }
         }
 
+        private void AddBotsAtRaidStart()
+        {
+            foreach (var player in gameWorld.AllAlivePlayersList)
+            {
+                if (!player.IsYourPlayer)
+                {
+                    ProcessPlayer(player);
+                }
+            }
+        }
+
+
         private void Update()
         {
             if (AILimitPlugin.PluginEnabled.Value)
             {
                 frameCounter++;
-
+                
                 if (frameCounter >= AILimitPlugin.FramesToCheck.Value)
                 {
+                    if (botList.Count == 0)
+                    {
+                        AddBotsAtRaidStart();
+                    }
+
                     UpdateBots();
                     frameCounter = 0; // Reset the frame counter
+                }
+                else {
                     UpdateBotsWithDisabledList();
                 }
             }
@@ -229,6 +248,7 @@ namespace AILimit
         {
             botCount = 0;
             disabledBotsLastFrame.Clear();
+
 
             botList.Sort((a, b) => a.Distance.CompareTo(b.Distance));
 
@@ -259,6 +279,9 @@ namespace AILimit
                     disabledBotsLastFrame.Add(bot);
                 }
             }
+
+            Logger.LogDebug("Active bots count: " + botCount+". Inactive bots count: "+ disabledBotsLastFrame.Count);
+            
         }
 
         private void UpdateBotsWithDisabledList()
@@ -284,9 +307,10 @@ namespace AILimit
 
         private static async Task<ElapsedEventHandler> EligiblePool(botPlayer botplayer)
         {
+            Logger.LogDebug("Wait for Bot # " + playerInfoMapping[botplayer.Id].Player.gameObject.name);
             //async while loop with await until bot actually in game
             while (playerInfoMapping[botplayer.Id].Player.CameraPosition == null)
-            {
+            {   
                 await Task.Delay(1000);
             }
             //		Message	"get_gameObject can only be called from the main thread.
