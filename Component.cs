@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Timers;
 using UnityEngine;
+using static EFT.SpeedTree.TreeWind;
 
 namespace AILimit
 {
@@ -181,9 +182,14 @@ namespace AILimit
                 var bot = playerInfo.Bot;
                 bot.Distance = Vector3.SqrMagnitude(player.Position - gameWorld.MainPlayer.Position);
 
-
                 if (!bot.timer.Enabled && player.CameraPosition != null)
                 {
+                    //player.AIData.BotOwner.BotTalk.Say(EPhraseTrigger.MumblePhrase, true);
+                    if (bot.Distance < 10000f)
+                    {
+                        //player.Say(EPhraseTrigger.MumblePhrase, true);
+                    }
+                    
                     bot.timer.Enabled = true;
                     bot.timer.Start();
                 }
@@ -267,6 +273,8 @@ namespace AILimit
                     bot.Distance < botDistance * botDistance &&
                     bot.eligibleNow)
                 {
+                    player.AIData.BotOwner.StandBy.Activate();
+                    player.AIData.BotOwner.StandBy._nextCheckTime = Time.time + 10f;
                     player.gameObject.SetActive(true);
                     botCount++;
                 }
@@ -275,6 +283,9 @@ namespace AILimit
                     // Clear AI decision queue so they don't do anything when they are disabled.
                     player.AIData.BotOwner.DecisionQueue.Clear();
                     player.AIData.BotOwner.Memory.GoalEnemy = null;
+                    player.AIData.BotOwner.Settings.FileSettings.Mind.CAN_STAND_BY = true;
+                    player.AIData.BotOwner.StandBy.method_1();
+                    player.AIData.BotOwner.StandBy._nextCheckTime = Time.time + 1000f;
                     player.gameObject.SetActive(false);
                     disabledBotsLastFrame.Add(bot);
                 }
@@ -290,7 +301,7 @@ namespace AILimit
             {
                 player = playerInfoMapping[bot.Id].Player;
 
-                if (player == null || !player.HealthController.IsAlive)
+                if (player == null || !player.HealthController.IsAlive || player.AIData.BotOwner.IsDead)
                 {
                     continue;
                 }
@@ -307,7 +318,7 @@ namespace AILimit
 
         private static async Task<ElapsedEventHandler> EligiblePool(botPlayer botplayer)
         {
-            Logger.LogDebug("Wait for Bot # " + playerInfoMapping[botplayer.Id].Player.gameObject.name);
+            //Logger.LogDebug("Wait for Bot # " + playerInfoMapping[botplayer.Id].Player.gameObject.name);
             //async while loop with await until bot actually in game
             while (playerInfoMapping[botplayer.Id].Player.CameraPosition == null)
             {   
@@ -319,7 +330,7 @@ namespace AILimit
 
             botplayer.timer.Stop();
             botplayer.eligibleNow = true;
-            Logger.LogDebug("Bot # " + playerInfoMapping[botplayer.Id].Player.gameObject.name + " is now eligible.");
+            //Logger.LogDebug("Bot # " + playerInfoMapping[botplayer.Id].Player.gameObject.name + " is now eligible.");
             return null;
         }
 
@@ -378,9 +389,5 @@ namespace AILimit
                 timer.Elapsed += async (sender, e) => await EligiblePool(this);
             }
         }
-
-
-
-
     }
 }
