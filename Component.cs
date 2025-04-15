@@ -41,10 +41,10 @@ namespace AILimit
             }
         }
 
-       
+
         private void Start()
         {
-            
+
             SetupBotDistanceForMap();
 
             //reset static vars to work with new raid
@@ -151,7 +151,7 @@ namespace AILimit
                     foreach (var player in gameWorld.AllAlivePlayersList)
                     {
                         if (!player.IsYourPlayer)
-                        { 
+                        {
                             ProcessPlayer(player);
                         }
                     }
@@ -163,7 +163,7 @@ namespace AILimit
         }
 
         public static void ProcessPlayer(Player player)
-        { 
+        {
             if (!playerInfoMapping.ContainsKey(player.Id))
             {
                 var playerInfo = new PlayerInfo
@@ -189,7 +189,7 @@ namespace AILimit
                     {
                         //player.Say(EPhraseTrigger.MumblePhrase, true);
                     }
-                    
+
                     bot.timer.Enabled = true;
                     bot.timer.Start();
                 }
@@ -227,13 +227,12 @@ namespace AILimit
             }
         }
 
-
         private void Update()
         {
             if (AILimitPlugin.PluginEnabled.Value)
             {
                 frameCounter++;
-                
+
                 if (frameCounter >= AILimitPlugin.FramesToCheck.Value)
                 {
                     if (botList.Count == 0)
@@ -244,7 +243,8 @@ namespace AILimit
                     UpdateBots();
                     frameCounter = 0; // Reset the frame counter
                 }
-                else {
+                else
+                {
                     UpdateBotsWithDisabledList();
                 }
             }
@@ -255,6 +255,7 @@ namespace AILimit
             botCount = 0;
             disabledBotsLastFrame.Clear();
 
+            float maxBotDistSqr = botDistance * botDistance;
 
             botList.Sort((a, b) => a.Distance.CompareTo(b.Distance));
 
@@ -270,29 +271,35 @@ namespace AILimit
                 bot.Distance = Vector3.SqrMagnitude(player.Position - gameWorld.MainPlayer.Position);
 
                 if (botCount < AILimitPlugin.BotLimit.Value &&
-                    bot.Distance < botDistance * botDistance &&
+                    bot.Distance < maxBotDistSqr && 
                     bot.eligibleNow)
                 {
-                    player.AIData.BotOwner.StandBy.Activate();
-                    player.AIData.BotOwner.StandBy._nextCheckTime = Time.time + 10f;
-                    player.gameObject.SetActive(true);
+                    if (player.gameObject.activeSelf == false)
+                    {
+                        player.AIData.BotOwner.StandBy.Activate();
+                        player.AIData.BotOwner.StandBy._nextCheckTime = Time.time + 10f;
+                        player.gameObject.SetActive(true);
+                    }
                     botCount++;
                 }
                 else if (bot.eligibleNow && !disabledBotsLastFrame.Contains(bot))
                 {
                     // Clear AI decision queue so they don't do anything when they are disabled.
-                    player.AIData.BotOwner.DecisionQueue.Clear();
-                    player.AIData.BotOwner.Memory.GoalEnemy = null;
-                    player.AIData.BotOwner.Settings.FileSettings.Mind.CAN_STAND_BY = true;
-                    player.AIData.BotOwner.StandBy.method_1();
-                    player.AIData.BotOwner.StandBy._nextCheckTime = Time.time + 1000f;
-                    player.gameObject.SetActive(false);
-                    disabledBotsLastFrame.Add(bot);
+                    if (player.gameObject.activeSelf == true)
+                    {
+                        player.AIData.BotOwner.DecisionQueue.Clear();
+                        player.AIData.BotOwner.Memory.GoalEnemy = null;
+                        player.AIData.BotOwner.Settings.FileSettings.Mind.CAN_STAND_BY = true;
+                        player.AIData.BotOwner.StandBy.method_1();
+                        player.AIData.BotOwner.StandBy._nextCheckTime = Time.time + 1000f;
+                        player.gameObject.SetActive(false);
+                        disabledBotsLastFrame.Add(bot);
+                    }
                 }
             }
 
-            Logger.LogDebug("Active bots count: " + botCount+". Inactive bots count: "+ disabledBotsLastFrame.Count);
-            
+            Logger.LogDebug("Active bots count: " + botCount + ". Inactive bots count: " + disabledBotsLastFrame.Count);
+
         }
 
         private void UpdateBotsWithDisabledList()
@@ -321,7 +328,7 @@ namespace AILimit
             //Logger.LogDebug("Wait for Bot # " + playerInfoMapping[botplayer.Id].Player.gameObject.name);
             //async while loop with await until bot actually in game
             while (playerInfoMapping[botplayer.Id].Player.CameraPosition == null)
-            {   
+            {
                 await Task.Delay(1000);
             }
             //		Message	"get_gameObject can only be called from the main thread.
