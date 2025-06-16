@@ -104,6 +104,7 @@ namespace AILimit
                     botDistance = AILimitPlugin.customsDistance.Value;
                     break;
                 case "sandbox":
+                case "sandbox_high":
                     botDistance = AILimitPlugin.groundZeroDistance.Value;
                     break;
                 case "interchange":
