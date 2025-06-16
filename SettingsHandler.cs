@@ -17,6 +17,7 @@ namespace dvize.AILimit
                     AILimitComponent.botDistance = AILimitPlugin.customsDistance.Value;
                     break;
                 case "sandbox":
+                case "sandbox_high":
                     AILimitComponent.botDistance = AILimitPlugin.groundZeroDistance.Value;
                     break;
                 case "interchange":
