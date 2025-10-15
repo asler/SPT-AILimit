@@ -61,62 +61,71 @@
   <ItemGroup>
     <Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>J:\SPT 3.11\BepInEx\core\0Harmony.dll</HintPath>
+      <HintPath>J:\SPT 4.0\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>J:\SPT 3.11\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>J:\SPT 4.0\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx, Version=5.4.22.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>J:\SPT 3.11\BepInEx\core\BepInEx.dll</HintPath>
+      <HintPath>J:\SPT 4.0\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
     <Reference Include="Comfort, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>J:\SPT 3.11\EscapeFromTarkov_Data\Managed\Comfort.dll</HintPath>
+      <HintPath>J:\SPT 4.0\EscapeFromTarkov_Data\Managed\Comfort.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="netstandard">
-      <HintPath>J:\SPT 3.11\EscapeFromTarkov_Data\Managed\netstandard.dll</HintPath>
+      <HintPath>J:\SPT 4.0\EscapeFromTarkov_Data\Managed\netstandard.dll</HintPath>
     </Reference>
     <Reference Include="spt-common, Version=3.10.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>J:\SPT 3.11\BepInEx\plugins\spt\spt-common.dll</HintPath>
+      <HintPath>J:\SPT 4.0\BepInEx\plugins\spt\spt-common.dll</HintPath>
     </Reference>
     <Reference Include="spt-reflection, Version=3.10.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>J:\SPT 3.11\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
+      <HintPath>J:\SPT 4.0\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>J:\SPT 3.11\EscapeFromTarkov_Data\Managed\System.Net.Http.dll</HintPath>
+      <HintPath>J:\SPT 4.0\EscapeFromTarkov_Data\Managed\System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>J:\SPT 3.11\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>J:\SPT 4.0\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>J:\SPT 3.11\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>J:\SPT 4.0\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetPath)" "J:\SPT 3.11\BepInEx\plugins\$(TargetName).dll"
+    <PostBuildEvent>copy "$(TargetPath)" "F:\SPT-AKI-DEV\BepInEx\plugins\$(TargetName).dll"
+copy "$(TargetPath)" "J:\SPT 4.0\BepInEx\plugins\$(TargetName).dll"
+
 
 if "$(ConfigurationName)" == "Debug" (
-    copy "$(TargetDir)$(TargetName).pdb" "J:\SPT 3.11\BepInEx\plugins\$(TargetName).pdb"
-) else (
-    del "J:\SPT 3.11\BepInEx\plugins\$(TargetName).pdb"
+    
+    copy "$(TargetDir)$(TargetName).pdb" "J:\SPT 4.0\BepInEx\plugins\$(TargetName).pdb"
+
+) 
+else (
+    
+    del "J:\SPT 4.0\BepInEx\plugins\$(TargetName).pdb"
+
 )
 
+
+
 if "$(ConfigurationName)" == "Release" (
-    powershell -ExecutionPolicy Bypass -NoProfile -NonInteractive -File "$(ProjectDir)PackageMods.ps1" -ConfigurationName "$(ConfigurationName)" -TargetPath "J:\SPT 3.11\BepInEx\plugins\$(TargetName).dll" -TargetName "$(TargetName)" -TargetDir "J:\SPT 3.11\BepInEx\plugins"
+    powershell -ExecutionPolicy Bypass -NoProfile -NonInteractive -File "$(ProjectDir)PackageMods.ps1" -ConfigurationName "$(ConfigurationName)" -TargetPath "F:\SPT-AKI-DEV\BepInEx\plugins\$(TargetName).dll" -TargetName "$(TargetName)" -TargetDir "F:\SPT-AKI-DEV\BepInEx\plugins"
 )</PostBuildEvent>
   </PropertyGroup>
 </Project>

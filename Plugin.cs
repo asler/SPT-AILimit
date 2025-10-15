@@ -8,11 +8,12 @@ using EFT;
 
 namespace AIlimit
 {
-    [BepInPlugin("com.dvize.AILimit", "dvize.AILimit", "1.8.4")]
+    [BepInPlugin("com.dvize.AILimit", "dvize.AILimit", "1.8.6")]
     public class AILimitPlugin : BaseUnityPlugin
     {
         public static ConfigEntry<bool> PluginEnabled;
         public static ConfigEntry<int> BotLimit;
+        //public static ConfigEntry<float> MaxBotsMultiplier;
         public static ConfigEntry<float> BotDistance;
         public static ConfigEntry<float> TimeAfterSpawn;
         public static ConfigEntry<int> FramesToCheck;
@@ -31,94 +32,98 @@ namespace AIlimit
         {
             PluginEnabled = Config.Bind(
                 "Main Settings",
-                "Plugin on/off",
+                "1. Plugin on/off",
                 true,
                 "");
 
+            //MaxBotsMultiplier = Config.Bind(
+            //    "Main Settings",
+            //    "2. Map Max Bots Multiplier",
+            //    1f,
+            //    new ConfigDescription("", new AcceptableValueRange<float>(.2f, 3f)));
+
             BotLimit = Config.Bind(
                 "Main Settings",
-                "Bot Limit (At Distance)",
+                "3. Bot Limit (At Distance)",
                 10,
-                "Based on your distance selected, limits up to this many # of bots moving at one time");
+                new ConfigDescription("Based on your distance selected, limits up to this many # of bots moving at one time", new AcceptableValueRange<int>(4, 20))
+                );
 
             TimeAfterSpawn = Config.Bind(
                 "Main Settings",
-                "Time After Spawn",
+                "4. Time After Spawn",
                 10f,
                 "Time (sec) to wait before disabling");
 
             FramesToCheck = Config.Bind(
                 "Main Settings",
-                "Delay frames before recheck bots",
+                "5. Delay frames before recheck bots",
                 300,
                 "Time (frames) to wait before rechecking bots");
 
-
             factoryDistance = Config.Bind(
                 "Map Related",
-                "factory",
+                "1. Factory",
                 80.0f,
-                "Distance after which bots are disabled.");
-
-            customsDistance = Config.Bind(
-                "Map Related",
-                "customs",
-                400.0f,
-                "Distance after which bots are disabled.");
-
-            groundZeroDistance = Config.Bind(
-                "Map Related",
-                "ground zero",
-                400.0f,
-                "Distance after which bots are disabled.");
-
-            interchangeDistance = Config.Bind(
-                "Map Related",
-                "interchange",
-                400.0f,
                 "Distance after which bots are disabled.");
 
             laboratoryDistance = Config.Bind(
                 "Map Related",
-                "labs",
+                "2. Laboratory",
                 250.0f,
                 "Distance after which bots are disabled.");
 
-            lighthouseDistance = Config.Bind(
+            groundZeroDistance = Config.Bind(
                 "Map Related",
-                "lighthouse",
+                "3. Ground Zero",
+                400.0f,
+                "Distance after which bots are disabled.");
+
+            customsDistance = Config.Bind(
+                "Map Related",
+                "4. Customs",
                 400.0f,
                 "Distance after which bots are disabled.");
 
             reserveDistance = Config.Bind(
                 "Map Related",
-                "reserve",
+                "5. Reserve base",
                 400.0f,
                 "Distance after which bots are disabled.");
 
-            shorelineDistance = Config.Bind(
+            interchangeDistance = Config.Bind(
                 "Map Related",
-                "shoreline",
-                400.0f,
-                "Distance after which bots are disabled.");
-
-            woodsDistance = Config.Bind(
-                "Map Related",
-                "woods",
+                "6. Interchange",
                 400.0f,
                 "Distance after which bots are disabled.");
 
             tarkovstreetsDistance = Config.Bind(
                 "Map Related",
-                "streets",
+                "7. Streets",
+                400.0f,
+                "Distance after which bots are disabled.");
+
+            woodsDistance = Config.Bind(
+                "Map Related",
+                "8. Woods",
+                400.0f,
+                "Distance after which bots are disabled.");
+
+            shorelineDistance = Config.Bind(
+                "Map Related",
+                "9. Shoreline",
+                400.0f,
+                "Distance after which bots are disabled.");
+
+            lighthouseDistance = Config.Bind(
+                "Map Related",
+                "A. Lighthouse",
                 400.0f,
                 "Distance after which bots are disabled.");
 
             ConfigManager.Initialize();
             new NewGamePatch().Enable();
-
         }
-
     }
 
     //re-initializes each new game

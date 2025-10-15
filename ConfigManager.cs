@@ -15,6 +15,7 @@ namespace dvize.AILimit
         public static event Action<float> OnWoodsDistanceChanged;
         public static event Action<float> OnCustomsDistanceChanged;
         public static event Action<float> OnTarkovStreetsDistanceChanged;
+        public static event Action OnOtherConfigChanger;
 
         public static void Initialize()
         {
@@ -29,6 +30,7 @@ namespace dvize.AILimit
             AILimitPlugin.woodsDistance.SettingChanged += (sender, e) => OnWoodsDistanceChanged?.Invoke(AILimitPlugin.woodsDistance.Value);
             AILimitPlugin.customsDistance.SettingChanged += (sender, e) => OnCustomsDistanceChanged?.Invoke(AILimitPlugin.customsDistance.Value);
             AILimitPlugin.tarkovstreetsDistance.SettingChanged += (sender, e) => OnTarkovStreetsDistanceChanged?.Invoke(AILimitPlugin.tarkovstreetsDistance.Value);
+            //AILimitPlugin.MaxBotsMultiplier.SettingChanged += (sender, e) => OnOtherConfigChanger?.Invoke();
         }
     }
 }

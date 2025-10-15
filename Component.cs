@@ -26,8 +26,11 @@ namespace AILimit
 
         private botPlayer bot;
         private Player player;
+        private int maxBots;
 
         private static BotSpawner botSpawnerClass;
+        private bool lastPluginState;
+
         protected static ManualLogSource Logger
         {
             get; private set;
@@ -46,7 +49,7 @@ namespace AILimit
         {
 
             SetupBotDistanceForMap();
-
+            lastPluginState = false;
             //reset static vars to work with new raid
             playerInfoMapping = new Dictionary<int, PlayerInfo>
             {
@@ -60,6 +63,10 @@ namespace AILimit
 
             botSpawnerClass.OnBotCreated += OnPlayerAdded;
             botSpawnerClass.OnBotRemoved += OnPlayerRemoved;
+            maxBots = botSpawnerClass.MaxBots;
+            //botSpawnerClass.MaxBots = (int) (AILimitPlugin.MaxBotsMultiplier.Value * maxBots);
+
+
         }
         public static void Enable()
         {
@@ -87,6 +94,7 @@ namespace AILimit
             ConfigManager.OnWoodsDistanceChanged += newValue => SettingsHandler.HandleMapDistanceChange("woods", newValue);
             ConfigManager.OnCustomsDistanceChanged += newValue => SettingsHandler.HandleMapDistanceChange("customs", newValue);
             ConfigManager.OnTarkovStreetsDistanceChanged += newValue => SettingsHandler.HandleMapDistanceChange("tarkovstreets", newValue);
+            //ConfigManager.OnOtherConfigChanger += () => botSpawnerClass.MaxBots = (int)(AILimitPlugin.MaxBotsMultiplier.Value * maxBots);
         }
 
 
@@ -231,6 +239,7 @@ namespace AILimit
         {
             if (AILimitPlugin.PluginEnabled.Value)
             {
+                lastPluginState = AILimitPlugin.PluginEnabled.Value;
                 frameCounter++;
 
                 if (frameCounter >= AILimitPlugin.FramesToCheck.Value)
@@ -248,6 +257,18 @@ namespace AILimit
                     UpdateBotsWithDisabledList();
                 }
             }
+            else if (lastPluginState != AILimitPlugin.PluginEnabled.Value)
+            {
+                lastPluginState = AILimitPlugin.PluginEnabled.Value;
+                foreach (var bot in botList)
+                {
+                    player = playerInfoMapping[bot.Id].Player;
+                    BotStandBy standBy = player.AIData.BotOwner.StandBy;
+                    standBy.Activate();
+                    standBy.NextCheckTime = Time.time + 10f;
+                    player.gameObject.SetActive(true);
+                }
+            }
         }
 
         private void UpdateBots()
@@ -263,21 +284,33 @@ namespace AILimit
             {
                 player = playerInfoMapping[bot.Id].Player;
 
-                if (player == null || !player.HealthController.IsAlive)
+                if (player == null)
                 {
                     continue;
                 }
 
+                if ( !player.HealthController.IsAlive)
+                {
+                    if (!player.gameObject.activeSelf) player.gameObject.SetActive(true);
+                    continue;
+                }
+
                 bot.Distance = Vector3.SqrMagnitude(player.Position - gameWorld.MainPlayer.Position);
+                BotStandBy standBy = player.AIData.BotOwner.StandBy;
+
+                if (standBy == null)
+                {
+                    continue;
+                }
 
                 if (botCount < AILimitPlugin.BotLimit.Value &&
                     bot.Distance < maxBotDistSqr && 
                     bot.eligibleNow)
                 {
-                    if (player.gameObject.activeSelf == false)
+                    if (player.gameObject.activeSelf == false || standBy.StandByType == BotStandByType.paused)
                     {
-                        player.AIData.BotOwner.StandBy.Activate();
-                        player.AIData.BotOwner.StandBy._nextCheckTime = Time.time + 10f;
+                        standBy.Activate();
+                        standBy.NextCheckTime = Time.time + 10f;
                         player.gameObject.SetActive(true);
                     }
                     botCount++;
@@ -285,13 +318,15 @@ namespace AILimit
                 else if (bot.eligibleNow && !disabledBotsLastFrame.Contains(bot))
                 {
                     // Clear AI decision queue so they don't do anything when they are disabled.
-                    if (player.gameObject.activeSelf == true)
+                    if (player.gameObject.activeSelf == true || standBy.StandByType != BotStandByType.paused)
                     {
-                        player.AIData.BotOwner.DecisionQueue.Clear();
+                        //player.AIData.BotOwner.DecisionQueue.Clear();
                         player.AIData.BotOwner.Memory.GoalEnemy = null;
                         player.AIData.BotOwner.Settings.FileSettings.Mind.CAN_STAND_BY = true;
-                        player.AIData.BotOwner.StandBy.method_1();
-                        player.AIData.BotOwner.StandBy._nextCheckTime = Time.time + 1000f;
+                        if (standBy.BotOwner_0 != null){
+                            standBy.method_1();
+                        }
+                        standBy.NextCheckTime = Time.time + 1000f;
                         player.gameObject.SetActive(false);
                         disabledBotsLastFrame.Add(bot);
                     }
@@ -327,6 +362,13 @@ namespace AILimit
         {
             //Logger.LogDebug("Wait for Bot # " + playerInfoMapping[botplayer.Id].Player.gameObject.name);
             //async while loop with await until bot actually in game
+            int count = 0;
+            while (playerInfoMapping[botplayer.Id] == null || count == 100)
+            {
+                await Task.Delay(1000);
+                count++;
+            }
+
             while (playerInfoMapping[botplayer.Id].Player.CameraPosition == null)
             {
                 await Task.Delay(1000);
@@ -355,6 +397,7 @@ namespace AILimit
             ConfigManager.OnWoodsDistanceChanged -= newValue => SettingsHandler.HandleMapDistanceChange("woods", newValue);
             ConfigManager.OnCustomsDistanceChanged -= newValue => SettingsHandler.HandleMapDistanceChange("customs", newValue);
             ConfigManager.OnTarkovStreetsDistanceChanged -= newValue => SettingsHandler.HandleMapDistanceChange("tarkovstreets", newValue);
+            //ConfigManager.OnOtherConfigChanger -= () => botSpawnerClass.MaxBots = (int)(AILimitPlugin.MaxBotsMultiplier.Value * maxBots);
         }
 
         private class PlayerInfo
