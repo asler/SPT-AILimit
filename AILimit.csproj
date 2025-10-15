@@ -115,8 +115,7 @@ if "$(ConfigurationName)" == "Debug" (
     
     copy "$(TargetDir)$(TargetName).pdb" "J:\SPT 4.0\BepInEx\plugins\$(TargetName).pdb"
 
-) 
-else (
+) else (
     
     del "J:\SPT 4.0\BepInEx\plugins\$(TargetName).pdb"
 

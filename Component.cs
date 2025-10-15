@@ -253,7 +253,7 @@ namespace AILimit
                     UpdateBots();
                     frameCounter = 0; // Reset the frame counter
                 }
-                else
+                else if (frameCounter == 1)
                 {
                     UpdateBotsWithDisabledList();
                 }
