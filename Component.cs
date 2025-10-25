@@ -3,6 +3,7 @@ using BepInEx.Logging;
 using Comfort.Common;
 using dvize.AILimit;
 using EFT;
+using EFT.UI.Ragfair;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Timers;
@@ -191,6 +192,12 @@ namespace AILimit
                 var bot = playerInfo.Bot;
                 bot.Distance = Vector3.SqrMagnitude(player.Position - gameWorld.MainPlayer.Position);
 
+                BotStandBy standBy = player.AIData.BotOwner.StandBy;
+                if (standBy != null)
+                {
+                    standBy.CanDoStandBy = true;
+                }
+
                 if (!bot.timer.Enabled && player.CameraPosition != null)
                 {
                     //player.AIData.BotOwner.BotTalk.Say(EPhraseTrigger.MumblePhrase, true);
@@ -253,7 +260,7 @@ namespace AILimit
                     UpdateBots();
                     frameCounter = 0; // Reset the frame counter
                 }
-                else if (frameCounter == 1)
+                else if (frameCounter == 1 && disabledBotsLastFrame.Count>0)
                 {
                     UpdateBotsWithDisabledList();
                 }
@@ -275,7 +282,6 @@ namespace AILimit
         private void UpdateBots()
         {
             botCount = 0;
-            disabledBotsLastFrame.Clear();
 
             float maxBotDistSqr = botDistance * botDistance;
 
@@ -301,18 +307,22 @@ namespace AILimit
 
                 if (standBy == null)
                 {
+                    Logger.LogDebug("standBy null in UpdateBots");
                     continue;
                 }
+                BotOwner owner = player.AIData.BotOwner;
 
                 if (botCount < AILimitPlugin.BotLimit.Value &&
                     bot.Distance < maxBotDistSqr && 
                     bot.eligibleNow)
                 {
+                    
                     if (player.gameObject.activeSelf == false || standBy.StandByType == BotStandByType.paused)
                     {
                         standBy.Activate();
                         standBy.NextCheckTime = Time.time + 10f;
                         player.gameObject.SetActive(true);
+                        owner.BotState = EBotState.Active;
                     }
                     botCount++;
                 }
@@ -322,13 +332,16 @@ namespace AILimit
                     if (player.gameObject.activeSelf == true || standBy.StandByType != BotStandByType.paused)
                     {
                         //player.AIData.BotOwner.DecisionQueue.Clear();
-                        player.AIData.BotOwner.Memory.GoalEnemy = null;
-                        player.AIData.BotOwner.Settings.FileSettings.Mind.CAN_STAND_BY = true;
+                        
+                        owner.Memory.GoalEnemy = null;
+                        owner.Settings.FileSettings.Mind.CAN_STAND_BY = true;
+                        standBy.CanDoStandBy = true;
                         if (standBy.BotOwner_0 != null){
                             standBy.method_1();
                         }
                         standBy.NextCheckTime = Time.time + 1000f;
                         player.gameObject.SetActive(false);
+                        owner.BotState = EBotState.NonActive;
                         disabledBotsLastFrame.Add(bot);
                     }
                 }
@@ -351,12 +364,19 @@ namespace AILimit
 
                 if (bot.eligibleNow)
                 {
-                    player.AIData.BotOwner.DecisionQueue.Clear();
-                    player.AIData.BotOwner.Memory.GoalEnemy = null;
-                    player.gameObject.SetActive(false);
+                    BotOwner owner = player.AIData.BotOwner;
+                    owner.DecisionQueue.Clear();
+                    owner.Memory.GoalEnemy = null;
+                    if (player.gameObject.activeSelf)
+                    {
+                        player.gameObject.SetActive(false);
+                        owner.BotState = EBotState.NonActive;
+                    }
                     Logger.LogDebug("Bot # " + player.gameObject.name + " deactivated.");
                 }
             }
+
+            disabledBotsLastFrame.Clear();
         }
 
         private static async Task<ElapsedEventHandler> EligiblePool(botPlayer botplayer)

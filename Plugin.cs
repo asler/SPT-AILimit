@@ -1,14 +1,15 @@
-﻿using System.Reflection;
-using AILimit;
-using SPT.Reflection.Patching;
+﻿using AILimit;
 using BepInEx;
 using BepInEx.Configuration;
 using dvize.AILimit;
 using EFT;
+using SPT.Reflection.Patching;
+using System;
+using System.Reflection;
 
 namespace AIlimit
 {
-    [BepInPlugin("com.dvize.AILimit", "dvize.AILimit", "1.8.6")]
+    [BepInPlugin("com.dvize.ailimit", "dvize.AILimit", "1.8.6")]
     public class AILimitPlugin : BaseUnityPlugin
     {
         public static ConfigEntry<bool> PluginEnabled;
@@ -46,7 +47,11 @@ namespace AIlimit
                 "Main Settings",
                 "3. Bot Limit (At Distance)",
                 10,
+#if DEBUG
+                new ConfigDescription("Based on your distance selected, limits up to this many # of bots moving at one time", new AcceptableValueRange<int>(0, 20))
+#else
                 new ConfigDescription("Based on your distance selected, limits up to this many # of bots moving at one time", new AcceptableValueRange<int>(4, 20))
+#endif
                 );
 
             TimeAfterSpawn = Config.Bind(
@@ -123,6 +128,8 @@ namespace AIlimit
 
             ConfigManager.Initialize();
             new NewGamePatch().Enable();
+            new Patch2().Enable();
+
         }
     }
 
@@ -135,6 +142,22 @@ namespace AIlimit
         public static void PatchPrefix()
         {
             AILimitComponent.Enable();
+        }
+    }
+
+
+    internal class Patch2 : ModulePatch
+    {
+        protected override MethodBase GetTargetMethod() => typeof(Player).GetMethod(nameof(Player.ComplexUpdate));
+
+        [PatchPrefix]
+        public static bool PatchPrefix(Player __instance)
+        {
+            if (__instance.gameObject.activeSelf)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
