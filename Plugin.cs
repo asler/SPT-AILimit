@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace AIlimit
 {
-    [BepInPlugin("com.dvize.ailimit", "dvize.AILimit", "1.8.6")]
+    [BepInPlugin("com.dvize.ailimit", "dvize.AILimit", "1.9.0")]
     [BepInDependency("com.fika.core", BepInDependency.DependencyFlags.SoftDependency)]
     public class AILimitPlugin : BaseUnityPlugin
     {
