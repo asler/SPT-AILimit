@@ -4,7 +4,10 @@ using Comfort.Common;
 using dvize.AILimit;
 using EFT;
 using EFT.UI.Ragfair;
+using Fika.Core.Main.PacketHandlers;
+using Fika.Core.Main.Players;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using UnityEngine;
@@ -21,9 +24,9 @@ namespace AILimit
         private int frameCounter = 3000;
         private List<botPlayer> disabledBotsLastFrame = new List<botPlayer>();
 
-
         private static Dictionary<int, PlayerInfo> playerInfoMapping = new Dictionary<int, PlayerInfo>();
         private static List<botPlayer> botList = new List<botPlayer>();
+        private List<Player> players = new List<Player>();
 
         private botPlayer bot;
         private Player player;
@@ -48,7 +51,6 @@ namespace AILimit
 
         private void Start()
         {
-
             SetupBotDistanceForMap();
             lastPluginState = false;
             //reset static vars to work with new raid
@@ -62,11 +64,16 @@ namespace AILimit
 
             Logger.LogDebug("Setup Bot Distance for Map: " + botDistance);
 
+            GetPlayers();
+            Logger.LogDebug("Players: " + players.Count);
+
             botSpawnerClass.OnBotCreated += OnPlayerAdded;
             botSpawnerClass.OnBotRemoved += OnPlayerRemoved;
             maxBots = botSpawnerClass.MaxBots;
-            //botSpawnerClass.MaxBots = (int) (AILimitPlugin.MaxBotsMultiplier.Value * maxBots);
 
+#if DEBUG
+            botSpawnerClass.MaxBots = (int)(AILimitPlugin.MaxBotsMultiplier.Value * maxBots);
+#endif
 
         }
         public static void Enable()
@@ -78,8 +85,9 @@ namespace AILimit
 
                 //botspawner is wrong class. bots being enabled here will limit bots spawned.
                 botSpawnerClass = (Singleton<IBotGame>.Instance).BotsController.BotSpawner;
-
-                Logger.LogDebug($"AILimit Enabled.");
+#if DEBUG
+                Logger.LogMessage($"AILimit Enabled.");
+#endif
             }
         }
         private void OnEnable()
@@ -101,7 +109,7 @@ namespace AILimit
 
         private void SetupBotDistanceForMap()
         {
-            string location = gameWorld.MainPlayer.Location.ToLower();
+            string location = gameWorld.LocationId.ToLower();
 
             switch (location)
             {
@@ -141,15 +149,29 @@ namespace AILimit
                     botDistance = 200.0f;
                     break;
             }
-
-            Logger.LogDebug($"The location detected is: {location} with radius: {botDistance}");
-
+#if DEBUG
+            Logger.LogMessage($"The location detected is: {location} with radius: {botDistance}");
+#endif
         }
 
+        private void GetPlayers()
+        {
+            foreach (var player in gameWorld.AllAlivePlayersList)
+            {
+                if (!player.IsAI)
+                {
+                    players.Add(player);
+                }
+            }
+
+#if DEBUG
+            Logger.LogMessage($"{players.Count} Players in game.");
+#endif
+        }
 
         public void OnPlayerAdded(BotOwner botOwner)
         {
-            if (!botOwner.GetPlayer.IsYourPlayer)
+            if (botOwner.GetPlayer.IsAI)
             {
                 player = botOwner.GetPlayer;
                 Logger.LogDebug("In OnPlayerAdded Method: " + player.gameObject.name);
@@ -160,15 +182,15 @@ namespace AILimit
                 {
                     foreach (var player in gameWorld.AllAlivePlayersList)
                     {
-                        if (!player.IsYourPlayer)
+                        if (player.IsAI)
                         {
                             ProcessPlayer(player);
                         }
                     }
                 }
-
-                Logger.LogDebug($"{botList.Count} bots in list from total {gameWorld.AllAlivePlayersList.Count - 1} bots.");
-
+#if DEBUG
+                Logger.LogMessage($"{botList.Count} bots in list from total {gameWorld.AllAlivePlayersList.Count - 1} bots.");
+#endif
             }
         }
 
@@ -214,7 +236,7 @@ namespace AILimit
 
         public void OnPlayerRemoved(BotOwner botOwner)
         {
-            player = botOwner.GetPlayer;
+            /*player = botOwner.GetPlayer;
             if (playerInfoMapping.ContainsKey(player.Id))
             {
                 var playerInfo = playerInfoMapping[player.Id];
@@ -229,14 +251,14 @@ namespace AILimit
                 }
 
                 playerInfoMapping.Remove(player.Id);
-            }
+            }*/
         }
 
         private void AddBotsAtRaidStart()
         {
             foreach (var player in gameWorld.AllAlivePlayersList)
             {
-                if (!player.IsYourPlayer)
+                if (player.IsAI)
                 {
                     ProcessPlayer(player);
                 }
@@ -260,7 +282,7 @@ namespace AILimit
                     UpdateBots();
                     frameCounter = 0; // Reset the frame counter
                 }
-                else if (frameCounter == 1 && disabledBotsLastFrame.Count>0)
+                else if (frameCounter == 1 && disabledBotsLastFrame.Count > 0)
                 {
                     UpdateBotsWithDisabledList();
                 }
@@ -279,30 +301,40 @@ namespace AILimit
             }
         }
 
+        private float getMinDistanceToBot(Player botPlayer)
+        {
+            List<float> dists = new List<float>();
+            foreach (Player player in players)
+            {
+                dists.Add(Vector3.SqrMagnitude(botPlayer.Position - player.Position));
+            }
+            
+            return dists.Min();
+        }
+
         private void UpdateBots()
         {
             botCount = 0;
 
             float maxBotDistSqr = botDistance * botDistance;
-
+            botList.ForEach(bot => bot.Distance = getMinDistanceToBot(playerInfoMapping[bot.Id].Player));
             botList.Sort((a, b) => a.Distance.CompareTo(b.Distance));
 
             foreach (var bot in botList)
             {
-                player = playerInfoMapping[bot.Id].Player;
+                var player = playerInfoMapping[bot.Id].Player;
 
                 if (player == null)
                 {
                     continue;
                 }
 
-                if ( !player.HealthController.IsAlive)
+                if (!player.HealthController.IsAlive)
                 {
                     if (!player.gameObject.activeSelf) player.gameObject.SetActive(true);
                     continue;
                 }
 
-                bot.Distance = Vector3.SqrMagnitude(player.Position - gameWorld.MainPlayer.Position);
                 BotStandBy standBy = player.AIData.BotOwner.StandBy;
 
                 if (standBy == null)
@@ -313,16 +345,21 @@ namespace AILimit
                 BotOwner owner = player.AIData.BotOwner;
 
                 if (botCount < AILimitPlugin.BotLimit.Value &&
-                    bot.Distance < maxBotDistSqr && 
+                    bot.Distance < maxBotDistSqr &&
                     bot.eligibleNow)
                 {
-                    
+
                     if (player.gameObject.activeSelf == false || standBy.StandByType == BotStandByType.paused)
                     {
                         standBy.Activate();
                         standBy.NextCheckTime = Time.time + 10f;
                         player.gameObject.SetActive(true);
                         owner.BotState = EBotState.Active;
+                        var sender = player.gameObject.GetComponent<BotPacketSender>();
+                        if (sender != null)
+                        {
+
+                        }
                     }
                     botCount++;
                 }
@@ -332,11 +369,12 @@ namespace AILimit
                     if (player.gameObject.activeSelf == true || standBy.StandByType != BotStandByType.paused)
                     {
                         //player.AIData.BotOwner.DecisionQueue.Clear();
-                        
+
                         owner.Memory.GoalEnemy = null;
                         owner.Settings.FileSettings.Mind.CAN_STAND_BY = true;
                         standBy.CanDoStandBy = true;
-                        if (standBy.BotOwner_0 != null){
+                        if (standBy.BotOwner_0 != null)
+                        {
                             standBy.method_1();
                         }
                         standBy.NextCheckTime = Time.time + 1000f;
@@ -346,9 +384,9 @@ namespace AILimit
                     }
                 }
             }
-
-            Logger.LogDebug("Active bots count: " + botCount + ". Inactive bots count: " + disabledBotsLastFrame.Count);
-
+#if DEBUG
+            Logger.LogMessage("Active bots count: " + botCount + ". Inactive bots count: " + disabledBotsLastFrame.Count);
+#endif
         }
 
         private void UpdateBotsWithDisabledList()
@@ -372,7 +410,9 @@ namespace AILimit
                         player.gameObject.SetActive(false);
                         owner.BotState = EBotState.NonActive;
                     }
-                    Logger.LogDebug("Bot # " + player.gameObject.name + " deactivated.");
+#if DEBUG
+                    Logger.LogMessage("Bot # " + player.gameObject.name + " deactivated.");
+#endif
                 }
             }
 

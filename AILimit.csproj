@@ -75,6 +75,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>J:\SPT 4.0\EscapeFromTarkov_Data\Managed\Comfort.dll</HintPath>
     </Reference>
+    <Reference Include="Fika.Core">
+      <HintPath>..\..\SPT DLLs\Fika.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="netstandard">
       <HintPath>J:\SPT 4.0\EscapeFromTarkov_Data\Managed\netstandard.dll</HintPath>

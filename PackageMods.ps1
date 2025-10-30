@@ -57,7 +57,7 @@ if ($deployDir -ne $baseDir) {
         New-Item -ItemType Directory -Path $tempZipDir
         Log "TempZipDir created: $tempZipDir"
 
-        $newZipStructure = Join-Path $tempZipDir "Bepinex\plugins\$directoryName"
+        $newZipStructure = Join-Path $tempZipDir "BepInEx\plugins\$directoryName"
         New-Item -ItemType Directory -Path $newZipStructure -Force
         Log "New zip structure directory created: $newZipStructure"
 
@@ -96,13 +96,13 @@ if ($deployDir -ne $baseDir) {
     Log "TempZipDir created: $tempZipDir"
 
     # Create the required folder structure within the temp directory
-    $bepinexPluginsDir = Join-Path $tempZipDir "Bepinex\plugins"
+    $bepinexPluginsDir = Join-Path $tempZipDir "BepInEx\plugins"
     New-Item -ItemType Directory -Path $bepinexPluginsDir -Force
-    Log "Bepinex\plugins directory created: $bepinexPluginsDir"
+    Log "BepInEx\plugins directory created: $bepinexPluginsDir"
 
     # Copy the single DLL to the new structure
     Copy-Item -Path $TargetPath -Destination $bepinexPluginsDir -Force
-    Log "DLL copied to Bepinex\plugins directory"
+    Log "DLL copied to BepInEx\plugins directory"
 
     # Create the final zip file
     Add-Type -AssemblyName System.IO.Compression.FileSystem

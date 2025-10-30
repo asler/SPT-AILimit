@@ -10,11 +10,14 @@ using System.Reflection;
 namespace AIlimit
 {
     [BepInPlugin("com.dvize.ailimit", "dvize.AILimit", "1.8.6")]
+    [BepInDependency("com.fika.core", BepInDependency.DependencyFlags.SoftDependency)]
     public class AILimitPlugin : BaseUnityPlugin
     {
         public static ConfigEntry<bool> PluginEnabled;
         public static ConfigEntry<int> BotLimit;
-        //public static ConfigEntry<float> MaxBotsMultiplier;
+#if DEBUG
+        public static ConfigEntry<float> MaxBotsMultiplier;
+#endif
         public static ConfigEntry<float> BotDistance;
         public static ConfigEntry<float> TimeAfterSpawn;
         public static ConfigEntry<int> FramesToCheck;
@@ -36,13 +39,13 @@ namespace AIlimit
                 "1. Plugin on/off",
                 true,
                 "");
-
-            //MaxBotsMultiplier = Config.Bind(
-            //    "Main Settings",
-            //    "2. Map Max Bots Multiplier",
-            //    1f,
-            //    new ConfigDescription("", new AcceptableValueRange<float>(.2f, 3f)));
-
+#if DEBUG
+            MaxBotsMultiplier = Config.Bind(
+                "Main Settings",
+                "2. Map Max Bots Multiplier",
+                2f,
+                new ConfigDescription("", new AcceptableValueRange<float>(.2f, 3f)));
+#endif
             BotLimit = Config.Bind(
                 "Main Settings",
                 "3. Bot Limit (At Distance)",
@@ -129,7 +132,6 @@ namespace AIlimit
             ConfigManager.Initialize();
             new NewGamePatch().Enable();
             new Patch2().Enable();
-
         }
     }
 
